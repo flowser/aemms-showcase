@@ -151,8 +151,24 @@ sequenceDiagram
 
 ## In numbers
 
-- **1,400+ commits** across the platform repositories since February 2026
-- **6 products** sharing one backend architecture
+<!-- telemetry:aemms -->
+**AEMMS by the numbers**
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/theme/aemms-stats-light.svg"/>
+  <img src="assets/theme/aemms-stats-dark.svg" width="100%" alt="AEMMS: API routes, data models, Vue components, automated tests"/>
+</picture>
+
+<p align="center"><img src="https://img.shields.io/badge/56-service_modules-0ea5e9?style=flat-square&labelColor=16162a" alt="56 service modules"/> <img src="https://img.shields.io/badge/61-desktop_IPC_handlers-9333ea?style=flat-square&labelColor=16162a" alt="61 desktop IPC handlers"/> <img src="https://img.shields.io/badge/13-CI_workflows-34d399?style=flat-square&labelColor=16162a" alt="13 CI workflows"/></p>
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/theme/aemms-donuts-light.svg"/>
+  <img src="assets/theme/aemms-donuts-dark.svg" width="100%" alt="AEMMS commits by app (1,461) and code by language"/>
+</picture>
+
+<sub>Measured from git on 2026-09-27 by <code>telemetry.py</code>: tracked files only, non-blank lines, CDACC forks counted once; dependencies, builds, migrations and third-party themes excluded.</sub>
+<!-- /telemetry:aemms -->
+
 - Deployed in production on a college campus — see the [campus network case study](https://github.com/flowser/flowser/blob/main/case-studies/chesta-campus-network.md)
 
 <p align="center"><img width="100%" src="assets/theme/divider.svg" alt=""/></p>
