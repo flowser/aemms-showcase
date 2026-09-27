@@ -1,4 +1,7 @@
-<h1 align="center">AEMMS — Academic &amp; Exam Management Platform</h1>
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="assets/theme/hero-light.svg"/>
+  <img width="100%" src="assets/theme/hero-dark.svg" alt="AEMMS. Academic and exam platform, campus-owned."/>
+</picture>
 
 <p align="center">
   A campus-owned platform for colleges: staff desktop, secure student exam client, offline-first field app, on-premises AI, and signed licensing.<br/>
@@ -6,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-In_production-22c55e?style=flat-square" alt="In production"/>
+  <img src="https://img.shields.io/badge/Status-In_production-34d399?style=flat-square&labelColor=16162a" alt="In production"/>
   <img src="https://img.shields.io/badge/Django_REST-092E20?style=flat-square&logo=django&logoColor=white" alt="Django"/>
   <img src="https://img.shields.io/badge/Vue_3-4FC08D?style=flat-square&logo=vuedotjs&logoColor=white" alt="Vue 3"/>
   <img src="https://img.shields.io/badge/Electron-47848F?style=flat-square&logo=electron&logoColor=white" alt="Electron"/>
@@ -18,7 +21,7 @@
 
 > **This is a showcase repository.** The source code is private and in production use. It describes the product, architecture and engineering. A live walkthrough is available on request — [get in touch](#contact).
 
----
+<p align="center"><img width="100%" src="assets/theme/divider.svg" alt=""/></p>
 
 ## Screenshots
 
@@ -36,7 +39,7 @@
 
 <sub>Screenshots use demo accounts and seeded data.</sub>
 
----
+<p align="center"><img width="100%" src="assets/theme/divider.svg" alt=""/></p>
 
 ## The products
 
@@ -53,7 +56,7 @@
   <img src="assets/ecosystem-map.png" width="85%" alt="AEMMS ecosystem map"/>
 </p>
 
----
+<p align="center"><img width="100%" src="assets/theme/divider.svg" alt=""/></p>
 
 ## Architecture
 
@@ -62,6 +65,7 @@
 </p>
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#16162a','primaryTextColor':'#f0f0ff','primaryBorderColor':'#4f46e5','lineColor':'#0ea5e9','secondaryColor':'#0d0d1a','tertiaryColor':'#12121f','clusterBkg':'#0d0d1a','clusterBorder':'#4f46e5','titleColor':'#0ea5e9','edgeLabelBackground':'#16162a'}}}%%
 flowchart TB
   subgraph vendor["Vendor control plane (cloud)"]
     V["Licences · subscriptions · releases"]
@@ -106,7 +110,7 @@ flowchart TB
 - **6 products** sharing one backend architecture
 - Deployed in production on a college campus — see the [campus network case study](https://github.com/flowser/flowser/blob/main/case-studies/chesta-campus-network.md)
 
----
+<p align="center"><img width="100%" src="assets/theme/divider.svg" alt=""/></p>
 
 ## Contact
 
