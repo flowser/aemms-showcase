@@ -65,22 +65,67 @@
 </p>
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'primaryColor':'#16162a','primaryTextColor':'#f0f0ff','primaryBorderColor':'#4f46e5','lineColor':'#0ea5e9','secondaryColor':'#0d0d1a','tertiaryColor':'#12121f','clusterBkg':'#0d0d1a','clusterBorder':'#4f46e5','titleColor':'#0ea5e9','edgeLabelBackground':'#16162a'}}}%%
+%%{init: {'theme':'base','themeVariables':{'fontSize':'15px','primaryColor':'#16162a','primaryTextColor':'#f0f0ff','primaryBorderColor':'#4f46e5','lineColor':'#0ea5e9','clusterBkg':'#0d0d1a','clusterBorder':'#4f46e5','titleColor':'#0ea5e9','edgeLabelBackground':'#16162a'}}}%%
 flowchart TB
-  subgraph vendor["Vendor control plane (cloud)"]
-    V["Licences · subscriptions · releases"]
+  subgraph vendor["☁️ Vendor control plane"]
+    V["🔑 Licences · subscriptions · releases<br/>Ed25519-signed"]:::cloud
   end
-  subgraph campus["Institution server (campus LAN)"]
-    API[("Django REST API<br/>PostgreSQL · Redis · Celery")]
-    RT["Soketi<br/>real-time events"]
-    AI["AI service<br/>FastAPI · InsightFace · Ollama"]
+  subgraph campus["🏫 Institution server · campus LAN"]
+    API{{"⚙️ Django REST API<br/>JWT · Celery"}}:::core
+    DB[("🗄️ PostgreSQL<br/>Redis")]:::data
+    RT["⚡ Soketi<br/>real-time events"]:::data
+    AI["🧠 AI service<br/>FastAPI · InsightFace · Ollama"]:::ai
   end
-  SM["SystemMate<br/>Electron"] --> API
-  EM["ExamMate<br/>Electron"] --> API
-  PF["Field app<br/>Capacitor"] --> API
+  SM["🖥️ SystemMate<br/>Electron · staff"]:::staff
+  EM["🔒 ExamMate<br/>Electron · trainees"]:::trainee
+  PF["📱 Field app<br/>Capacitor · offline-first"]:::field
+  SM --> API
+  EM --> API
+  PF -.->|sync when online| API
+  API <--> DB
   API --> RT
-  API --> AI
-  V -->|Ed25519-signed licence| API
+  API <-->|on-prem inference| AI
+  V ==>|signed licence| API
+  classDef ai fill:#9333ea,stroke:#d8b4fe,stroke-width:2px,color:#ffffff
+  classDef cloud fill:#db2777,stroke:#f9a8d4,stroke-width:2px,color:#ffffff
+  classDef core fill:#ea580c,stroke:#fdba74,stroke-width:3px,color:#ffffff
+  classDef data fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#e0e7ff
+  classDef field fill:#059669,stroke:#6ee7b7,stroke-width:2px,color:#ffffff
+  classDef staff fill:#4f46e5,stroke:#a5b4fc,stroke-width:2px,color:#ffffff
+  classDef trainee fill:#0284c7,stroke:#7dd3fc,stroke-width:2px,color:#ffffff
+  style vendor fill:#1a0b16,stroke:#db2777,stroke-width:2px,color:#f9a8d4
+  style campus fill:#0d0d1a,stroke:#4f46e5,stroke-width:2px,color:#7dd3fc
+  linkStyle default stroke:#0ea5e9,stroke-width:2px
+```
+
+### One exam, end to end
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'fontSize':'15px','actorBkg':'#4f46e5','actorBorder':'#a5b4fc','actorTextColor':'#ffffff','actorLineColor':'#6b6b8a','signalColor':'#0ea5e9','signalTextColor':'#0ea5e9','labelBoxBkgColor':'#f97316','labelBoxBorderColor':'#fdba74','labelTextColor':'#ffffff','loopTextColor':'#f97316','noteBkgColor':'#16162a','noteTextColor':'#f0f0ff','noteBorderColor':'#f97316','activationBkgColor':'#0ea5e9','activationBorderColor':'#7dd3fc','sequenceNumberColor':'#ffffff'}}}%%
+sequenceDiagram
+  autonumber
+  participant S as 🖥️ SystemMate
+  participant A as ⚙️ Institution API
+  participant E as 🔒 ExamMate
+  participant I as 🧠 AI service
+  rect rgba(79, 70, 229, 0.18)
+    Note over S,A: Prepare
+    S->>A: Author paper, set exam type and window
+  end
+  rect rgba(14, 165, 233, 0.18)
+    Note over A,E: Sit
+    E->>A: Trainee signs in on the campus LAN
+    A->>I: Face match, if the exam type requires it
+    I-->>A: Verified (or proctor override)
+    E->>E: Display guard blocks extra monitors
+    E->>A: Submit answers
+  end
+  rect rgba(249, 115, 22, 0.18)
+    Note over S,E: Mark and release
+    S->>A: Mark, with AI assist on long answers
+    S->>A: Release results
+    A-->>E: Results and transcript available
+  end
 ```
 
 ## Engineering highlights
@@ -90,7 +135,7 @@ flowchart TB
 - **Real-time on a closed LAN.** Live dashboards use a self-hosted Pusher-compatible server (Soketi) instead of a cloud service.
 - **AI that stays in the building.** Face verification runs on ONNX Runtime with InsightFace; the learning assistant uses local Ollama models with retrieval over course material. No student data goes to a third-party AI provider.
 - **Offline-first field work.** The mobile app captures visits and assessments without connectivity and syncs later.
-- **Two regulatory product lines** served from the same architecture, separated by configuration and branding rather than forked logic.
+- **Two regulator editions** (KNEC for teacher-training colleges, CDACC for TVET colleges) built on one shared architecture and shipped as separate release lines, so each regulator's rules can change without breaking the other.
 - **Delivery:** Docker Compose for development, Proxmox containers in production, GitHub Actions CI, auto-updating desktop installers for Windows, macOS and Linux.
 
 ## Stack
